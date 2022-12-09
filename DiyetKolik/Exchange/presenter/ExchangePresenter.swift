@@ -8,6 +8,10 @@
 import Foundation
 
 class ExchangePresenter : ViewToPresenterExchangeProtocol{
+    func getCurrenciesDictionary() {
+        exchangeInteractor?.getCurrenciesDictionary()
+    }
+    
     var exchangeInteractor: PresenterToInteractorExchangeProtocol?
     
     var exchangeView: PresenterToViewExchangeProtocol?
@@ -19,6 +23,10 @@ class ExchangePresenter : ViewToPresenterExchangeProtocol{
 }
 
 extension ExchangePresenter : InteractorToPresenterExchangeProtocol {
+    func sendCurrenciesDictToPresenter(currenciesDictionary: [String : Double]) {
+        exchangeView?.sendCurrenciesDictToView(currenciesDictionary: currenciesDictionary)
+    }
+    
     func sendSortedCurrenciesKeysListToPresenter(sortedCurrenciesKeysList: [String]) {
         exchangeView?.sendSortedCurrenciesKeysListToPresenter(sortedCurrenciesKeysList: sortedCurrenciesKeysList)
     }

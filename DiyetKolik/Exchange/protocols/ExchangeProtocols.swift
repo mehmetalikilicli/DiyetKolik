@@ -11,20 +11,25 @@ protocol ViewToPresenterExchangeProtocol {
     var exchangeInteractor : PresenterToInteractorExchangeProtocol? {get set}
     var exchangeView : PresenterToViewExchangeProtocol? {get set}
     
+    func getCurrenciesDictionary()
     func getSortedCurrenciesKeysList()
 }
 
 protocol PresenterToInteractorExchangeProtocol {
     var exchangePresenter : InteractorToPresenterExchangeProtocol? {get set}
     
+    func getCurrenciesDictionary()
     func getSortedCurrenciesKeysList()
 }
 
 protocol InteractorToPresenterExchangeProtocol {
+    func sendCurrenciesDictToPresenter(currenciesDictionary : [String : Double])
     func sendSortedCurrenciesKeysListToPresenter(sortedCurrenciesKeysList: [String])
 }
 
 protocol PresenterToViewExchangeProtocol {
+    
+    func sendCurrenciesDictToView(currenciesDictionary : [String : Double])
     func sendSortedCurrenciesKeysListToPresenter(sortedCurrenciesKeysList: [String])
 }
 protocol PresenterToRouterExchangeProtocol {

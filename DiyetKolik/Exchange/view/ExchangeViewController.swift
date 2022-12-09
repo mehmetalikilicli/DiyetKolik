@@ -29,19 +29,13 @@ class ExchangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ExchangeRouter.createModule(ref: self)
+        //setDefaultExchangeLabel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        exchangePresenterObject?.getCurrenciesDictionary()
         exchangePresenterObject?.getSortedCurrenciesKeysList()
         setPullDownButtons()
-        getCurrenciesDictionary()
-        setDefaultExchangeLabel()
-    }
-    
-    func setDefaultExchangeLabel() {
-        defaultExchangeLabel.text = "1 USD = \(currenciesDictionary["EUR"]!) EUR"
-    }
-    
-    func getCurrenciesDictionary() {
-        let defaults = UserDefaults.standard
-        self.currenciesDictionary = (defaults.value(forKey: "currenciesDictionary") as? [String : Double])!
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -49,7 +43,7 @@ class ExchangeViewController: UIViewController {
                 let gidilecekVC = segue.destination as! ControlViewController
             
         // Tamamını bir model olarak dönmem lazım
-            //Model olarak oluşturdum
+        // Model olarak oluşturdum
             gidilecekVC.firstSelectedCurrency = firstSelectedCurrency
             gidilecekVC.secondSelectedCurrency = secondSelectedCurrency
             gidilecekVC.firstCurrencyAmount = Double(exchangeTextField.text!)!
@@ -74,6 +68,10 @@ class ExchangeViewController: UIViewController {
             self.present(alert, animated: true)
     }
     
+    func setDefaultExchangeLabel() {
+        defaultExchangeLabel.text = "1 USD = \(currenciesDictionary["EUR"]!) EUR"
+    }
+    
     func getExchangeAmount() -> Double{
         var exchangeAmount =  Double(currenciesDictionary[secondSelectedCurrency]!) / Double(currenciesDictionary[firstSelectedCurrency]!) * Double(exchangeTextField.text!)!
         
@@ -90,7 +88,7 @@ extension ExchangeViewController {
         }
         
         for currency in self.sortedCurrenciesKeys {
-            currenciesOnButtonFirstList.append(UIAction(title: currency, handler: firstButtonTapped))
+                currenciesOnButtonFirstList.append(UIAction(title: currency, handler: firstButtonTapped))
         }
         
         self.firstCurrencyButton.menu = UIMenu(children: currenciesOnButtonFirstList)
@@ -101,14 +99,19 @@ extension ExchangeViewController {
         }
         
         for currency in self.sortedCurrenciesKeys {
-            currenciesOnButtonSecondList.append(UIAction(title: currency, handler: secondButtonTapped))
+                currenciesOnButtonSecondList.append(UIAction(title: currency, handler: secondButtonTapped))
         }
         self.secondCurrencyButton.menu = UIMenu(children: currenciesOnButtonSecondList)
     }
 }
 
 extension ExchangeViewController : PresenterToViewExchangeProtocol {
+    func sendCurrenciesDictToView(currenciesDictionary: [String : Double]) {
+            self.currenciesDictionary = currenciesDictionary
+    }
+    
     func sendSortedCurrenciesKeysListToPresenter(sortedCurrenciesKeysList: [String]) {
-        self.sortedCurrenciesKeys = sortedCurrenciesKeysList
+            self.sortedCurrenciesKeys = sortedCurrenciesKeysList
+        
     }
 }

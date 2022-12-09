@@ -45,8 +45,6 @@ extension CurrencyViewController : PresenterToViewCurrencyProtocol {
             self.currenciesTableView.reloadData()
         }
     }
-    
-    
 }
 
 extension CurrencyViewController : UITableViewDelegate, UITableViewDataSource {
